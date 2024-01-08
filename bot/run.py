@@ -129,6 +129,8 @@ async def handle_message(message: types.Message):
     try:
         botinfo = await bot.get_me()
         is_allowed_user = message.from_user.id in allowed_ids
+        is_allowed_user = True # ho disattivato la white list
+        print(is_allowed_user)
         is_private_chat = message.chat.type == "private"
         is_supergroup = message.chat.type == "supergroup"
         is_group = message.chat.type == "group"
@@ -208,7 +210,7 @@ async def handle_message(message: types.Message):
                     await sent_message.edit_text(
                         md_autofixer(
                             full_response_stripped
-                            + f"\n\nCurrent Model: `{modelname}`**\n**Generated in {response_data.get('total_duration')/10e9:.2f}s"
+                            + f"\n\nCurrent Model: SophyAI **\n**Generated in {response_data.get('total_duration')/10e9:.2f}s"
                         ),
                         parse_mode=ParseMode.MARKDOWN_V2,
                     )
