@@ -32,7 +32,7 @@ modelname = os.getenv("INITMODEL")
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
     if message.from_user.id in allowed_ids:
-        start_message = f"Welcome to OllamaTelegram Bot, ***{message.from_user.full_name}***!\nSource code: https://github.com/ruecat/ollama-telegram"
+        start_message = f"Welcome to SophyAI Bot, ***{message.from_user.full_name}***!\n"
         start_message_md = md_autofixer(start_message)
         await message.answer(
             start_message_md,
@@ -52,6 +52,7 @@ async def command_start_handler(message: Message) -> None:
 
 @dp.message(Command("reset"))
 async def command_reset_handler(message: Message) -> None:
+    print(f"Message reset \n")
     if message.from_user.id in allowed_ids:
         if message.from_user.id in ACTIVE_CHATS:
             async with ACTIVE_CHATS_LOCK:
@@ -124,11 +125,15 @@ async def systeminfo_callback_handler(query: types.CallbackQuery):
 
 @dp.message()
 async def handle_message(message: types.Message):
+   
     try:
         botinfo = await bot.get_me()
         is_allowed_user = message.from_user.id in allowed_ids
         is_private_chat = message.chat.type == "private"
         is_supergroup = message.chat.type == "supergroup"
+        is_group = message.chat.type == "group"
+        print (message.chat.type)
+        print (botinfo.username)
         bot_mentioned = any(
             entity.type == "mention"
             and message.text[entity.offset : entity.offset + entity.length]
@@ -138,11 +143,12 @@ async def handle_message(message: types.Message):
         if (
             is_allowed_user
             and message.text
-            and (is_private_chat or (is_supergroup and bot_mentioned))
+            and (is_private_chat or (is_supergroup and bot_mentioned ) or (is_group and bot_mentioned )) 
         ):
             if is_supergroup and bot_mentioned:
                 cutmention = len(botinfo.username) + 2
                 prompt = message.text[cutmention:]  # + ""
+                
             else:
                 prompt = message.text
             await bot.send_chat_action(message.chat.id, "typing")

@@ -5,9 +5,10 @@ from asyncio import Lock
 
 import aiohttp
 from dotenv import load_dotenv
+import platform
 
 load_dotenv()
-system_info = os.uname()
+system_info = platform.platform()
 token = os.getenv("TOKEN")
 ollama_base_url = os.getenv("OLLAMA_BASE_URL")
 allowed_ids = list(map(int, os.getenv("USER_IDS", "").split(",")))
