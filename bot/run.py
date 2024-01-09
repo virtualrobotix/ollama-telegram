@@ -31,7 +31,10 @@ modelname = os.getenv("INITMODEL")
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-    if message.from_user.id in allowed_ids:
+    is_allowed_user = True # ho disattivato la white list
+    print(is_allowed_user)
+    if is_allowed_user:
+    #if message.from_user.id in allowed_ids:
         start_message = f"Welcome to SophyAI Bot, ***{message.from_user.full_name}***!\n"
         start_message_md = md_autofixer(start_message)
         await message.answer(
@@ -53,7 +56,10 @@ async def command_start_handler(message: Message) -> None:
 @dp.message(Command("reset"))
 async def command_reset_handler(message: Message) -> None:
     print(f"Message reset \n")
-    if message.from_user.id in allowed_ids:
+    is_allowed_user = True # ho disattivato la white list
+    print(is_allowed_user)
+    if is_allowed_user:
+    #if message.from_user.id in allowed_ids:
         if message.from_user.id in ACTIVE_CHATS:
             async with ACTIVE_CHATS_LOCK:
                 ACTIVE_CHATS.pop(message.from_user.id)
@@ -66,7 +72,10 @@ async def command_reset_handler(message: Message) -> None:
 
 @dp.message(Command("getcontext"))
 async def command_get_context_handler(message: Message) -> None:
-    if message.from_user.id in allowed_ids:
+    is_allowed_user = True # ho disattivato la white list
+    print(is_allowed_user)
+    if is_allowed_user:
+    #if message.from_user.id in allowed_ids:
         if message.from_user.id in ACTIVE_CHATS:
             messages = ACTIVE_CHATS.get(message.chat.id)["messages"]
             context = ""
