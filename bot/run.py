@@ -5,6 +5,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.enums import ParseMode
 from aiogram.filters.command import Command, CommandStart
 from aiogram.types import Message
+from aiogram.types import ContentType
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from func.controller import *
 
@@ -131,7 +132,7 @@ async def systeminfo_callback_handler(query: types.CallbackQuery):
     else:
         await query.answer("Access Denied")
 
-
+        
 @dp.message()
 async def handle_message(message: types.Message):
    
@@ -139,6 +140,7 @@ async def handle_message(message: types.Message):
         botinfo = await bot.get_me()
         is_allowed_user = message.from_user.id in allowed_ids
         is_allowed_user = True # ho disattivato la white list
+        print(types)
         print(is_allowed_user)
         is_private_chat = message.chat.type == "private"
         is_supergroup = message.chat.type == "supergroup"
